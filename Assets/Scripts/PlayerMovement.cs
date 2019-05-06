@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             GameObject instLight = Instantiate(lightball, staff.transform.position, Quaternion.identity) as GameObject;
             Rigidbody instLightRB = instLight.GetComponent<Rigidbody>();
-            instLightRB.AddForce((staff.transform.forward) * lightball_speed);
+            instLightRB.AddForce((staff.transform.forward) * lightball_speed, ForceMode.Impulse);
         }
     }
 }
