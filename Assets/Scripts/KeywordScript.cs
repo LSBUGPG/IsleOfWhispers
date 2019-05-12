@@ -12,15 +12,19 @@ public class KeywordScript : MonoBehaviour {
     private KeywordRecognizer keywordRecognizer;
     private Dictionary<string, Action> actions = new Dictionary<string, Action>();
     // Use this for initialization
-    void Start () {
+    void Start() {
 
-        actions.Add ("sit", Sit);
+        actions.Add("sit", Sit);
         actions.Add("shit", Sit);
         actions.Add("set", Sit);
         actions.Add("soot", Sit);
         actions.Add("seat", Sit);
         actions.Add("sid", Sit);
         actions.Add("seed", Sit);
+        actions.Add("what's that smell?", Sniff);
+        actions.Add("what's that?", Sniff);
+        actions.Add("scout the area", Sniff);
+        actions.Add("anyone there?", Sniff);
 
         //m_Recognizer = new KeywordRecognizer(m_Keywords);
         //m_Recognizer.OnPhraseRecognized += OnPhraseRecognized;
@@ -32,13 +36,22 @@ public class KeywordScript : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-        
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            Sit();
+            dogscript.sniff = false;
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            dogscript.sit = false;
+            Sniff();
+        }
     }
-   // private void OnPhraseRecognized(PhraseRecognizedEventArgs args)
+    // private void OnPhraseRecognized(PhraseRecognizedEventArgs args)
     //{
-       // Debug.LogFormat("{0} ({1})", args.text, args.confidence);
-   // }
+    // Debug.LogFormat("{0} ({1})", args.text, args.confidence);
+    // }
 
     private void RecognizedSpeech(PhraseRecognizedEventArgs speech)
     {
@@ -51,5 +64,9 @@ public class KeywordScript : MonoBehaviour {
         dogscript.sit = true;
         Debug.Log("Sit");
     }
-
+    private void Sniff()
+    {
+        dogscript.sniff = true;
+        Debug.Log("Sniff");
+    }
 }

@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour {
     public float rot;
     public GameObject lightball;
     public GameObject staff;
-    public float lightball_speed = 1000;
+    public float lightball_speed = 300;
 
 	// Use this for initialization
 	void Start () {

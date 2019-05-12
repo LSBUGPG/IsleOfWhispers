@@ -7,7 +7,7 @@ public class GhostController : MonoBehaviour
     [Tooltip("The ghosts speed in m/s"), Range(0, .4f)] public float speed = 0.05f;
     [Tooltip("The ghosts vertical speed in m/s"), Range(0, 1f)] public float vSpeed = 0.5f;
     [Tooltip("The time between ghost shots")] public float shotCooldown = 2f;
-    [Tooltip("The range of the ghost will detect the player")] public float detectionRange = 5f;
+    [Tooltip("The range of the ghost will detect the player")] public float detectionRange = 10f;
     [Tooltip("The time in seconds the ghost waits to change directions"), Range(0, 1)] public float changetime = .1f;
     [Tooltip("The chance that a ghost will change direction, higher values makes it less likely"), Range(0, 10)] public int chanceChange = 5;
     [Tooltip("The 'time' required before a ghost will switch turning direction, higher values increase the 'time'"), Range(0, 10)] public int switchTime = 5;
@@ -18,20 +18,34 @@ public class GhostController : MonoBehaviour
 
     int liveChance;
     float targetHeight;
-    float count;
+    float count = 5;
     bool inRange = false;
     Vector3 deltaH;
+    public bool isvisible = false;
+    Renderer rend;
+    public GameObject ghostshot;
+    public float shot_speed = 300;
 
     void Start()
     {
         liveChance = chanceChange;
         StartCoroutine(changeDirection());
+        StartCoroutine(checkFire());
         targetHeight = transform.position.y;
         tarHeightChange(targetHeight);
+        rend = GetComponent<Renderer>();
     }
 
     void Update()
     {
+        if (isvisible)
+        {
+            rend.enabled = true;
+        }
+        else
+        {
+            rend.enabled = false;
+        }
         Vector3 dir = transform.forward.normalized;
         float y = transform.position.y;
 
@@ -43,12 +57,14 @@ public class GhostController : MonoBehaviour
         dir += deltaH;
         transform.Translate(dir * speed);
 
-        if (count <= 0 && inRange)
+        Debug.LogFormat("count = {0} inRange = {1}, isvisible= {2}", count, inRange, isvisible);
+        if (count <= 0 && inRange && isvisible)
         {
+            Debug.Log("in range");
             fireShot();
             count = shotCooldown;
         }
-        else if (count >= 0)
+        else if (count > 0)
         {   count -= Time.deltaTime;    }
     }
 
@@ -83,8 +99,9 @@ public class GhostController : MonoBehaviour
             GameObject player = GameObject.FindGameObjectWithTag("Player");
             Vector3 dir = player.transform.position - transform.position;
             RaycastHit hit;
-            
-            if(Physics.Raycast(transform.position, dir, out hit, detectionRange))
+
+            Debug.DrawRay(transform.position + transform.forward, dir);
+            if(Physics.Raycast(transform.position + transform.forward, dir, out hit, detectionRange))
             {
                 if(hit.transform.tag == "Player")
                 {   inRange = true; }
@@ -108,6 +125,9 @@ public class GhostController : MonoBehaviour
 
     void fireShot()
     {
-        //shoot code here
+        Debug.Log("Shoot");
+        GameObject instGhost = Instantiate(ghostshot, transform.position, Quaternion.identity) as GameObject;
+        Rigidbody instLightRB = instGhost.GetComponent<Rigidbody>();
+        instLightRB.AddForce((transform.forward) * shot_speed, ForceMode.Impulse);
     }
 }
