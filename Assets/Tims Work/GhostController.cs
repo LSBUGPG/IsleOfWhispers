@@ -60,6 +60,8 @@ public class GhostController : MonoBehaviour
         Debug.LogFormat("count = {0} inRange = {1}, isvisible= {2}", count, inRange, isvisible);
         if (count <= 0 && inRange && isvisible)
         {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            transform.LookAt(player.transform);
             Debug.Log("in range");
             fireShot();
             count = shotCooldown;
