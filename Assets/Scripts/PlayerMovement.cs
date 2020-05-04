@@ -145,7 +145,8 @@ public class PlayerMovement : MonoBehaviour {
         velocity.y = 0.0f;
         if (onGround)
         {
-            rb.AddForce(movement * speed * speed_mult * movDiag - velocity, ForceMode.VelocityChange);
+            Debug.Log(movement * speed * speed_mult * movDiag);
+            rb.AddForce(movement * speed * speed_mult * movDiag /*, ForceMode.VelocityChange */);
             rb.AddForce(Vector3.up * upForce);
         }
         if (!paused)
