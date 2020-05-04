@@ -12,17 +12,34 @@ public class Projectile : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         count += 1;
-        if (count > 200)
+        if (count > 150)
         {
             Destroy(gameObject);
         }
 	}
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.CompareTag("Ghost"))
+        if (other.transform.CompareTag("Ghost") && other.transform.GetComponent<Renderer>())
         {
-            Destroy(other.gameObject);
+            if (other.gameObject.GetComponent<Ghost_Possessor>())
+            {
+                other.gameObject.BroadcastMessage("Dead");
+                Destroy(gameObject);
+            }
+            
+            else
+            {
+                if (other.transform.GetComponent<Renderer>().enabled)
+                {
+                    Destroy(other.gameObject);
+                    Destroy(gameObject);
+                }
+                
+            }
+        }
+        else
+        {
             Destroy(gameObject);
         }
     }

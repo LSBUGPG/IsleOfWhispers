@@ -39,13 +39,21 @@ public class KeywordScript : MonoBehaviour {
     void Update() {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            Sit();
-            dogscript.sniff = false;
+            if (!dogscript.inCircle)
+            {
+                Sit();
+                dogscript.sniff = false;
+            }
+            
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            dogscript.sit = false;
-            Sniff();
+            if (dogscript.inCircle)
+            {
+                dogscript.sit = false;
+                Sniff();
+            }
+            
         }
     }
     // private void OnPhraseRecognized(PhraseRecognizedEventArgs args)
@@ -61,12 +69,20 @@ public class KeywordScript : MonoBehaviour {
 
     private void Sit()
     {
-        dogscript.sit = true;
-        Debug.Log("Sit");
+        if (!dogscript.inCircle)
+        {
+            dogscript.sit = true;
+            Debug.Log("Sit");
+        }
+        
     }
     private void Sniff()
     {
-        dogscript.sniff = true;
-        Debug.Log("Sniff");
+        if (dogscript.inCircle)
+        {
+            dogscript.sniff = true;
+            Debug.Log("Sniff");
+        }
+        
     }
 }

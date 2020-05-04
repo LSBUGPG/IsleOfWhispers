@@ -5,7 +5,10 @@ TagManager:
   serializedVersion: 2
   tags:
   - Ghost
-  - GhostRadius
+  - GhostProj
+  - spawnpoint
+  - Exit
+  - LightBall
   layers:
   - Default
   - TransparentFX
