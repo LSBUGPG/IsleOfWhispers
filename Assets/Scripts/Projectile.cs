@@ -12,16 +12,18 @@ public class Projectile : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         count += 1;
-        if (count > 150)
+        if (count > 200)
         {
+            Debug.Log("Shot disappeared");
             Destroy(gameObject);
         }
 	}
 
-    private void OnCollisionEnter(Collision other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.transform.CompareTag("Ghost") && other.transform.GetComponent<Renderer>())
+        if (other.transform.CompareTag("Ghost") && other.transform.GetComponent<CGG_GhostController_Working>())
         {
+            CGG_GhostController_Working script = other.GetComponent<CGG_GhostController_Working>();
             if (other.gameObject.GetComponent<Ghost_Possessor>())
             {
                 other.gameObject.BroadcastMessage("Dead");
@@ -30,7 +32,7 @@ public class Projectile : MonoBehaviour {
             
             else
             {
-                if (other.transform.GetComponent<Renderer>().enabled)
+                if (script.isVisible)
                 {
                     Destroy(other.gameObject);
                     Destroy(gameObject);
@@ -40,7 +42,12 @@ public class Projectile : MonoBehaviour {
         }
         else
         {
-            Destroy(gameObject);
+            if (!other.gameObject.GetComponent<SpawnPointScript>())
+            {
+                Debug.Log("projectile destroyed by " + other.gameObject);
+                Destroy(gameObject);
+            }
+
         }
     }
 }

@@ -22,7 +22,7 @@ public class CGG_GhostController_Working : MonoBehaviour
     Vector3 deltaH;
     Vector3 dodgeDirection;
     Vector3 nearestSpawnPoint;
-    Renderer rend;
+    public Renderer rend;
     GameObject player;
     GameObject[] spawnPoints;
 
@@ -35,7 +35,6 @@ public class CGG_GhostController_Working : MonoBehaviour
     void Start()
     {
         spawnPoints = GameObject.FindGameObjectsWithTag("spawnpoint");
-        rend = GetComponent<Renderer>();
         movePoint = generatePoint();
         player = GameObject.FindGameObjectWithTag("Player"); //Getting a reference to the player transfrom
         dodgeRadius = Mathf.Abs(transform.localScale.z + 1f);
@@ -83,6 +82,10 @@ public class CGG_GhostController_Working : MonoBehaviour
             }
             else
             {
+                //float singleStep = speed * Time.deltaTime;
+                //Vector3 newDirection = Vector3.RotateTowards(transform.forward, player.transform.position, singleStep, 0.0f);
+                //transform.rotation = Quaternion.LookRotation(newDirection);
+                transform.LookAt(player.transform.position);
                 fireShot();
                 count = shotCooldown;
             }
@@ -247,7 +250,10 @@ public class CGG_GhostController_Working : MonoBehaviour
 
     void fireShot()
     {
-//        Debug.Log("Shoot");
+        float singleStep = speed * Time.deltaTime;
+        Vector3 newDirection = Vector3.RotateTowards(transform.forward, player.transform.position, singleStep, 0.0f);
+        transform.rotation = Quaternion.LookRotation(newDirection);
+        //        Debug.Log("Shoot");
         Vector3 dir = (player.transform.position - transform.position).normalized;
         GameObject instGhost = Instantiate(ghostshot, transform.position, Quaternion.identity) as GameObject;
         Rigidbody instLightRB = instGhost.GetComponent<Rigidbody>();

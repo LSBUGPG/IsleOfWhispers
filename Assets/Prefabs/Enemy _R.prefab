@@ -11,11 +11,11 @@ GameObject:
   - component: {fileID: 4148069455838306}
   - component: {fileID: 33905716571562404}
   - component: {fileID: 23286444061584550}
-  - component: {fileID: 135986997559435394}
-  - component: {fileID: 114039458315767070}
   - component: {fileID: 54909120025768138}
   - component: {fileID: 114729994972705050}
   - component: {fileID: 114175239630677730}
+  - component: {fileID: 8303503373078457565}
+  - component: {fileID: 6173485376586667433}
   m_Layer: 0
   m_Name: Enemy _R
   m_TagString: Ghost
@@ -84,41 +84,6 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!135 &135986997559435394
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1499866781770560}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114039458315767070
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1499866781770560}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a9a54fce01a2b7478c93257834a5e57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0.2
-  vSpeed: 0.5
-  shotCooldown: 2
-  detectionRange: 30
-  decimalPlaces: 1
-  isvisible: 0
-  ghostshot: {fileID: 1063856495378512, guid: 36bcecf210a0c754aa8ca7edc69150e5, type: 3}
-  shot_speed: 300
-  movePoint: {x: 0, y: 0, z: 0}
-  dogSpotted: 0
 --- !u!54 &54909120025768138
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -171,4 +136,39 @@ MonoBehaviour:
   ghostshot: {fileID: 1063856495378512, guid: 36bcecf210a0c754aa8ca7edc69150e5, type: 3}
   shot_speed: 300
   movePoint: {x: 0, y: 0, z: 0}
+  dogSpotted: 0
+--- !u!136 &8303503373078457565
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499866781770560}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.55
+  m_Height: 1.05
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6173485376586667433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499866781770560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5660e5c5e1f46df48ac66af694bd011b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.2
+  shotCooldown: 2
+  detectionRange: 30
+  dodgeChance: 0.3
+  movePoint: {x: 0, y: 0, z: 0}
+  ghostshot: {fileID: 1063856495378512, guid: 36bcecf210a0c754aa8ca7edc69150e5, type: 3}
+  shot_speed: 300
+  isVisible: 0
   dogSpotted: 0

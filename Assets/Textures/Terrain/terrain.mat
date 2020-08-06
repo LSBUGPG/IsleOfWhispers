@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: terrain
-  m_Shader: {fileID: 4800000, guid: d4b270a1afae6424bad807a9880c032d, type: 3}
+  m_Shader: {fileID: 4800000, guid: bf0aa8563ce3ceb4183a743f52d7d305, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -143,7 +143,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueOffset: 0
-    - _Radius: 5
+    - _Radius: 3.93
     - _SampleGI: 0
     - _Smoothness0: 0.5
     - _Smoothness1: 0.5

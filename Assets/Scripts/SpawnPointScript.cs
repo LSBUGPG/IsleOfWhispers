@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class SpawnPointScript : MonoBehaviour {
     public bool areThereGhosts;
@@ -8,6 +9,9 @@ public class SpawnPointScript : MonoBehaviour {
     int totalGhosts;
     public float radius;
     AudioSource audioSrc;
+    public AudioMixerSnapshot snapExp;
+    public AudioMixerSnapshot snapGho;
+    
     // Use this for initialization
     void Start () {
         audioSrc = GetComponent<AudioSource>();
@@ -15,10 +19,10 @@ public class SpawnPointScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        totalGhosts = FindObjectsOfType<CGG_GhostController>().Length;
+        totalGhosts = FindObjectsOfType<CGG_GhostController_Working>().Length;
         Debug.DrawRay(transform.position, Vector3.forward * radius, Color.red, 1);
         float smallest_dist = 1000;
-        foreach (var ghost in FindObjectsOfType<CGG_GhostController>())
+        foreach (var ghost in FindObjectsOfType<CGG_GhostController_Working>())
         {
             float dist = Vector3.Distance(transform.position, ghost.transform.position);
             if (dist < smallest_dist)
@@ -40,18 +44,18 @@ public class SpawnPointScript : MonoBehaviour {
     {
         if (areThereGhosts)
         {
-            audioSrc.Play();
+            snapGho.TransitionTo(1.0f);
         }
     }
     public void PlayerStay()
     {
         if (!areThereGhosts)
         {
-            audioSrc.Stop();
+            snapExp.TransitionTo(1.0f);
         }
     }
     public void PlayerExit()
     {
-        audioSrc.Stop();
+        snapExp.TransitionTo(1.0f);
     }
 }

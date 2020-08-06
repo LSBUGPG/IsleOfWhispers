@@ -35,10 +35,11 @@ public class DogScript : MonoBehaviour {
     float timerMax;
     public float startingSpeed;
     float speedMod = 1;
-
+    public float currentSpeed;
+    public Animator anim;
+    public bool bark = false;
     // Use this for initialization
     void Start () {
-        
         timerMax = Random.Range(4, 5);
         audioSource = gameObject.GetComponent<AudioSource>();
         agent = GetComponent<NavMeshAgent>();
@@ -50,7 +51,9 @@ public class DogScript : MonoBehaviour {
     // Update is called once per frame
     void Update () {
         agent.speed = startingSpeed * speedMod;
-        
+
+        currentSpeed = agent.velocity.magnitude / agent.speed;
+        anim.SetFloat("DogSpeed", currentSpeed);
         //Debug.Log("Nearest Ghost :" + nearestGhost + ", Nearest Hidden Ghost: " + nearestHiddenGhost);
         if (!possessed)
         {
@@ -72,7 +75,7 @@ public class DogScript : MonoBehaviour {
             offset = Random.Range(-3, 3);
             float smallest_dist1 = 1000;
 
-            foreach (var ghost in FindObjectsOfType<CGG_GhostController>())
+            foreach (var ghost in FindObjectsOfType<CGG_GhostController_Working>())
             {
                 
                 float dist1 = Vector3.Distance(transform.position, ghost.transform.position);
@@ -80,7 +83,7 @@ public class DogScript : MonoBehaviour {
                 {
                     smallest_dist1 = dist1;
                     nearestGhost = ghost.transform.position;
-                    if (!ghost.isvisible)
+                    if (!ghost.isVisible)
                     {
                         nearestHiddenGhost = ghost.transform.position;
                     }
@@ -120,7 +123,7 @@ public class DogScript : MonoBehaviour {
             if (inCircle)
             {
                 audioCount += 1;
-                if (audioCount >= 220)
+                if (audioCount >= 330)
                 {
                     audioSource.PlayOneShot(audioClips[clipNum]);
                     audioCount = 0;
@@ -135,7 +138,8 @@ public class DogScript : MonoBehaviour {
                     {
                         agent.SetDestination(nearestGhost);
                     }
-                    
+                    bark = false;
+                    anim.SetBool("isBarking", bark);
                     sniffCollider.enabled = true;
                 }
                 else
@@ -146,10 +150,14 @@ public class DogScript : MonoBehaviour {
                     if (Vector3.Distance(transform.position, nearestSpawnPoint) < spawnDist)
                     {
                         //agent.transform.LookAt(new Vector3(nearestGhost.x, transform.position.y, nearestGhost.z));
-                        Quaternion quat2 = Quaternion.LookRotation(new Vector3(nearestGhost.x, transform.position.y, nearestGhost.z) - transform.position);
-                        agent.transform.rotation = Quaternion.RotateTowards(agent.transform.rotation, quat2, turnSpeed* Time.deltaTime);
+                        bark = true;
+                        anim.SetBool("isBarking", bark);
                     }
-                    
+                    else
+                    {
+                        bark = false;
+                        anim.SetBool("isBarking", bark);
+                    }
                 }
             }
             if (commandCount > 600)
@@ -200,6 +208,11 @@ public class DogScript : MonoBehaviour {
 
         
 	}
+    
+    void FixedUpdate()
+    {
+
+    }
     void OnTriggerEnter(Collider other)
     {
         

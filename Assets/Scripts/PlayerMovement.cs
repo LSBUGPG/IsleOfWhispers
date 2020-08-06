@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour {
     bool sprint = false;
     public float sprintmeter;
     public float sprintMax;
+    public float maxSpeed;
+    public float maxSpeedMult;
 
     // Use this for initialization
     void Start () {
@@ -55,16 +57,19 @@ public class PlayerMovement : MonoBehaviour {
         if (ispossessed)
         {
             speed_mult = 0.5f;
+            maxSpeedMult = 0.5f;
         }
         else
         {
             if (sprint)
             {
                 speed_mult = 1.5f;
+                maxSpeedMult = 1.5f;
             }
             else
             {
                 speed_mult = 1;
+                maxSpeedMult = 1;
             }
             
         }
@@ -122,12 +127,12 @@ public class PlayerMovement : MonoBehaviour {
         if (Input.GetKey(KeyCode.LeftShift) && sprintmeter > 0)
         {
             sprint = true;
-            sprintmeter -= 1;
+            sprintmeter -= 0.33f;
         }
         if (!Input.GetKey(KeyCode.LeftShift) || sprintmeter <= 0)
         {
             sprint = false;
-            sprintmeter += 0.33f;
+            sprintmeter += 0.11f;
         }
         //create a raycast for the jumping animation
         RaycastHit hit;
@@ -143,9 +148,10 @@ public class PlayerMovement : MonoBehaviour {
         Vector3 movement = (transform.forward * movY) + (transform.right * movX);
         Vector3 velocity = rb.velocity;
         velocity.y = 0.0f;
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed * maxSpeedMult);
+        
         if (onGround)
         {
-            Debug.Log(movement * speed * speed_mult * movDiag);
             rb.AddForce(movement * speed * speed_mult * movDiag /*, ForceMode.VelocityChange */);
             rb.AddForce(Vector3.up * upForce);
         }
@@ -154,7 +160,10 @@ public class PlayerMovement : MonoBehaviour {
             rot += Input.GetAxis("Mouse X");
             transform.eulerAngles = new Vector3(0, rot, 0);
         }
-        
+        if (movX == 0 && movY == 0)
+        {
+            rb.velocity = new Vector3(0, rb.velocity.y, 0);
+        }
 
         if ((Input.GetMouseButtonDown(0)||Input.GetKeyDown(KeyCode.E)) && !paused && !ispossessed)
         {

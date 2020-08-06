@@ -15,9 +15,9 @@ public class Sniff : MonoBehaviour {
 	}
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<CGG_GhostController>())
+        if (other.GetComponent<CGG_GhostController_Working>())
         {
-            other.GetComponent<CGG_GhostController>().isvisible = true;
+            other.GetComponent<CGG_GhostController_Working>().isVisible = true;
             Debug.Log("detected");
         }
         if (other.GetComponent<CGG_GhostCon_Modified>())

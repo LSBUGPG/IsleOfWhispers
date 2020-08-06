@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class GhostTeleport : MonoBehaviour {
-    CGG_GhostController ghostController;
+    CGG_GhostController_Working ghostController;
     bool hasteleported = false;
     GameObject[] teleportlocations;
     int teleportCount = 0;
 	// Use this for initialization
 	void Start () {
         teleportlocations = GameObject.FindGameObjectsWithTag("spawnpoint");
-        ghostController = GetComponent<CGG_GhostController>();
+        ghostController = GetComponent<CGG_GhostController_Working>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (ghostController.isvisible && !hasteleported)
+        if (ghostController.isVisible && !hasteleported)
         {
             teleportCount += 1;
         }
@@ -26,7 +26,7 @@ public class GhostTeleport : MonoBehaviour {
             int spawnvalue = Random.Range(0, teleportlocations.Length);
             transform.position = teleportlocations[spawnvalue].transform.position;
             hasteleported = true;
-            ghostController.isvisible = false;
+            ghostController.isVisible = false;
             teleportCount = 0;
             ghostController.movePoint = ghostController.generatePoint();
         }

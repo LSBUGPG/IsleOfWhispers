@@ -28,6 +28,7 @@ public class HUDScript : MonoBehaviour
     void Start()
     {
         playerscript = FindObjectOfType<PlayerMovement>();
+        ghostcount = FindObjectsOfType<CGG_GhostController_Working>().Length;
     }
 
     // Update is called once per frame
@@ -36,7 +37,7 @@ public class HUDScript : MonoBehaviour
         sprintSlider.value = playerscript.sprintmeter;
         health = playerscript.health;
         healthAnim.SetInteger("Health", health);
-        ghostcount = FindObjectsOfType<CGG_GhostController>().Length;
+        ghostcount = FindObjectsOfType<CGG_GhostController_Working>().Length;
         ghosttext.text = ghostcount.ToString();
         if (Input.GetKeyDown(KeyCode.Escape))
         {
